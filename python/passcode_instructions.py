@@ -16,11 +16,6 @@ def clear_console():
 def print_entry_directions(
     passcode: str, bullshit_multiplier: int, time_interval_s: float
 ):
-    steps = list(passcode)
-    for i in range(bullshit_multiplier * len(passcode)):
-        insertion_index = random.randrange(0, len(steps))
-        steps = steps[:insertion_index] + ["(", ")"] + steps[insertion_index:]
-
     clear_console()
     print("Get Ready")
     time.sleep(time_interval_s)
@@ -33,21 +28,29 @@ def print_entry_directions(
     clear_console()
     print("Countdown: [  ]")
 
-    # i is for flashing the * symbol to differentiate 2 of the same number in a row
-    for i, c in enumerate(steps):
-        time.sleep(time_interval_s)
-        clear_console()
+    i = 0  # i is for flashing the * symbol to differentiate 2 of the same number in a row
 
-        # alternates like colons in digital clocks
-        indicator = "* " if i % 2 == 0 else "  "
+    for _ in range(2):  # need to enter passcode twice on iPhone to set
 
-        if c == "(":
-            print(f"{indicator}Type {random_digit()}")
-            continue
-        elif c == ")":
-            print(f"{indicator}Press DELETE")
-            continue
-        print(f"{indicator}Type {c}")
+        steps = list(passcode)
+        for _ in range(bullshit_multiplier * len(passcode)):
+            insertion_index = random.randrange(0, len(steps))
+            steps = steps[:insertion_index] + ["(", ")"] + steps[insertion_index:]
+
+        for i, c in enumerate(steps):
+            time.sleep(time_interval_s)
+            clear_console()
+
+            # alternates like colons in digital clocks
+            indicator = "* " if i % 2 == 0 else "  "
+
+            if c == "(":
+                print(f"{indicator}Type {random_digit()}")
+                continue
+            elif c == ")":
+                print(f"{indicator}Press DELETE")
+                continue
+            print(f"{indicator}Type {c}")
 
     time.sleep(time_interval_s)
     clear_console()

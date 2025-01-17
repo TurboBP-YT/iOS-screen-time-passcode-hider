@@ -50,9 +50,9 @@ def main() -> Tuple[str, List[int]]:
         # 2 times more bullshit numbers than actual numbers.
         # The higher the BS factor, the better you ensure you won’t remember the passcode you entered.
         passcode_instructions.print_entry_directions(
-            2 * passcode,  # need to enter passcode twice on iPhone to set
+            passcode,
             bullshit_multiplier=2,
-            time_interval_s=1,
+            time_interval_s=1.25,
         )
 
     return passcode, decrypt_key_ints  # for testing purposes
