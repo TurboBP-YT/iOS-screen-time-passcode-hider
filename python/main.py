@@ -1,12 +1,12 @@
-from typing import Tuple, List
-import pyaes, random, base64
-import passcode_instructions, math_problems
-
 # user-config
 NUM_MATH_PROBLEMS = 5
 SECONDS_DISPLAY_EACH_PASSCODE_ENTRY_STEP = 1.5
 
 assert NUM_MATH_PROBLEMS <= 32  # AES keys can’t be longer than 256 bits
+
+from typing import Tuple, List
+import pyaes, random, base64
+import passcode_instructions, math_problems
 
 
 def pad_int_list_AES_key(bytes_as_int_list: List[int]) -> List[int]:
@@ -33,7 +33,7 @@ def encrypt_passcode(plaintext: str, len_key_bytes: int) -> Tuple[str, List[int]
 
 
 def main() -> Tuple[str, List[int]]:
-    passcode: str = passcode_instructions.generate()
+    passcode: str = passcode_instructions.generate_4digit_passcode()
 
     passcode_ciphertext, decrypt_key_ints = encrypt_passcode(
         passcode, NUM_MATH_PROBLEMS

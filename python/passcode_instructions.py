@@ -1,14 +1,19 @@
+from typing import List
 import random
 from tqdm import tqdm
 from time import sleep
 
 
-def random_digit() -> int:
+def list_flatten_1_level(list_nested: List[List[any]]) -> List[any]:
+    return [e for g in list_nested for e in g]
+
+
+def random_nonzero_digit() -> int:
     return random.randrange(1, 10)
 
 
-def generate() -> str:
-    return "".join([str(random_digit()) for _ in range(4)])
+def generate_4digit_passcode() -> str:
+    return "".join([str(random_nonzero_digit()) for _ in range(4)])
 
 
 def clear_console():
@@ -17,15 +22,12 @@ def clear_console():
 
 def depth_at_index(iterable, pos: int) -> int:
     depth: int = 0
-    max_depth: int = 0
-    for c in iterable:
+    for c in iterable[:pos]:
         if c == "(":
             depth += 1
         elif c == ")":
             depth -= 1
-        if depth > max_depth:
-            max_depth = depth
-    return max_depth
+    return depth
 
 
 def show_timed_progress_bar(seconds: float, n_divisions: int):
@@ -79,14 +81,12 @@ def print_entry_directions(
 
         # places fake steps between real steps
         # flattens list
-        steps = [
-            e
-            for g in [
+        steps = list_flatten_1_level(
+            [
                 fake_steps + [real_step]
                 for fake_steps, real_step in zip(fake_steps_groups, passcode[:-1])
             ]
-            for e in g
-        ] + [passcode[-1]]
+        ) + [passcode[-1]]
 
         # displays instructions in terminal
         for c in steps:
@@ -96,7 +96,7 @@ def print_entry_directions(
             indicator = "> " if i % 2 == 0 else "  "
 
             if c == "(":
-                print(f"{indicator}Type {random_digit()}")
+                print(f"{indicator}Type {random_nonzero_digit()}")
             elif c == ")":
                 print(f"{indicator}Press DELETE")
             else:
