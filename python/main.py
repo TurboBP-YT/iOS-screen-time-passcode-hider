@@ -4,8 +4,9 @@ import passcode_instructions, math_problems
 
 # user-config
 NUM_MATH_PROBLEMS = 5
+SECONDS_DISPLAY_EACH_PASSCODE_ENTRY_STEP = 1.5
 
-assert NUM_MATH_PROBLEMS <= 32
+assert NUM_MATH_PROBLEMS <= 32  # AES keys can’t be longer than 256 bits
 
 
 def pad_int_list_AES_key(bytes_as_int_list: List[int]) -> List[int]:
@@ -15,7 +16,7 @@ def pad_int_list_AES_key(bytes_as_int_list: List[int]) -> List[int]:
     try:
         len_padded_key = next(n for n in VALID_AES_KEY_LENS if n >= l)
     except StopIteration:
-        print("Too Many Math Problems! Max Allowed Is 32.")
+        print(f"Too Many Math Problems! Max Allowed Is {max(VALID_AES_KEY_LENS)}.")
         quit()
     trailing_pad = (len_padded_key - l) * [bytes_as_int_list[-1]]
     return bytes_as_int_list + trailing_pad
@@ -52,7 +53,7 @@ def main() -> Tuple[str, List[int]]:
         passcode_instructions.print_entry_directions(
             passcode,
             bullshit_multiplier=2,
-            time_interval_s=1.25,
+            time_interval_s=SECONDS_DISPLAY_EACH_PASSCODE_ENTRY_STEP,
         )
 
     return passcode, decrypt_key_ints  # for testing purposes
