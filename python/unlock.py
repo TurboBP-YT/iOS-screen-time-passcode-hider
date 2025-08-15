@@ -1,6 +1,6 @@
 from typing import List
 import pyaes, base64
-from main import pad_int_list_AES_key
+from encryption import pad_int_list_AES_key
 
 
 def decrypt_passcode(ciphertext: str, key_bytes: bytes) -> str:
@@ -28,12 +28,27 @@ if __name__ == "__main__":
 
     decrypt_key: bytes = bytes(pad_int_list_AES_key(input_ints_list))
 
-    with open("passcode_encrypted.txt", "r") as f:
-        passcode_ciphertext: str = f.read()
+    ciphertext_filename: str = input(
+        "Enter the name of the file you want to decrypt (type nothing to default to 'passcode_encrypted.txt'): "
+    ).strip()
 
-        try:
-            print(decrypt_passcode(passcode_ciphertext, decrypt_key))
+    try:
+        with open(
+            (
+                ciphertext_filename
+                if len(ciphertext_filename)
+                else "passcode_encrypted.txt"
+            ),
+            "r",
+        ) as f:
+            passcode_ciphertext: str = f.read()
 
-        except UnicodeDecodeError:
-            print("Decryption Error")
-            quit()
+            try:
+                print(decrypt_passcode(passcode_ciphertext, decrypt_key))
+
+            except UnicodeDecodeError:
+                print("Decryption Error")
+                quit()
+    except FileNotFoundError:
+        print("ERROR: File Not Found")
+        quit()
