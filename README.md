@@ -19,4 +19,5 @@ Python script. Create an iOS Screen Time passcode that you won’t remember, and
 1. Solve the algebra problems located in `unlock_challenge.txt` and write down your answers
 2. (Python) Run `unlock.py`
 3. (Python) Type your answers in and then press <kbd>enter</kbd>
-4. (Python) If the answers are correct, the passcode shows up.
+4. (Python) Enter the path to the encrypted passcode file (the default is `passcode_encrypted.txt`)
+5. (Python) If the answers are correct, the passcode shows up.
