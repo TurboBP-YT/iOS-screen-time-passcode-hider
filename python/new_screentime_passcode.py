@@ -30,12 +30,12 @@ def main(allow_overwrites: bool = False) -> Tuple[str, List[int]]:
 
     file_open_mode = "w" if allow_overwrites else "x"
     try:
-        with open("passcode_encrypted.txt", file_open_mode) as f:
-            print(passcode_ciphertext, file=f)  # stores encrypted passcode in file
-
-        with open("unlock_challenge.txt", file_open_mode) as f:
+        with open("passcode_encrypted.txt", file_open_mode) as f_pe, open(
+            "unlock_challenge.txt", file_open_mode
+        ) as f_uc:
+            print(passcode_ciphertext, file=f_pe)  # stores encrypted passcode in file
             print(
-                math_problems.generate(decrypt_key_ints), file=f
+                math_problems.generate(decrypt_key_ints), file=f_uc
             )  # stores math problems in file
     except FileExistsError as e:
         print(f"ERROR: The file '{e.filename}' already exists.")
